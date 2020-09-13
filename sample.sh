@@ -4,6 +4,9 @@
 # EXAMPLE FILE.
 #
 
+trap "exit" INT TERM
+trap "kill 0" EXIT
+
 # Source in all functions.
 . ./utils.sh --source-only
 
