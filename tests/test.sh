@@ -62,6 +62,7 @@ do_test "get_value_or_default \"Hey\" \"Nothing\"" "Hey"
 do_test "get_value_or_default \"\" \"Nothing\"" "Nothing"
 
 
+
 #
 # PARAMS GET AT
 #
@@ -163,6 +164,17 @@ echo ""
 echo::info "Testing strings::to_lower_case"
 do_test "strings::to_lower_case \"StRiNg iN lOwEr CasE\"" "string in lower case"
 do_test "strings::to_lower_case \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"" "abcdefghijklmnopqrstuvwxyz" 
+
+
+#
+# Strings COUNT
+#
+echo ""
+echo::info "Testing strings::count"
+do_test "strings::count \"One Two Three Four\"" "4"
+do_test "strings::count \"One Two Three Four five\"" "5" 
+do_test "strings::count \"One\"" "1" 
+do_test "strings::count \"\"" "0" 
 
 #
 # STRING INCLUDES

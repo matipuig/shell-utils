@@ -38,9 +38,11 @@ exit_with(){
 #   PARAMS
 #
 
+
+
 # Returns the param in the specified position (specified in the first param).
-# Use: x=$(param_get_at 3 $@) => The third param in $@ 
-# Use: x=$(param_get_at 2 "My Testing") => "" (There's no second param)
+# Use: x=$(params::get_at 3 $@) => The third param in $@ 
+# Use: x=$(params::get_at 2 "My Testing") => "" (There's no second param)
 params::get_at(){
   if [[ $(is_integer "${1}") = "0" ]]; then
     exit_with 1 "Received \"${1}\". Not a valid number."
@@ -123,7 +125,7 @@ user_input::get_or_default(){
 # Asks for an answer no empty. If it's empty, it asks again.
 # Use: x=$(user_input::no_empty "Ask here")
 user_input::get_no_empty(){
-  while [ true ]; do
+  while [[ true ]]; do
     read -p "$@ : " user_input
     if [[ ! -z "${user_input}" ]]; then
       echo "${user_input}"
@@ -145,7 +147,7 @@ user_input::get_yn(){
       [Nn]* ) result="0";;
       * ) echo "";;
     esac
-    if [ "${result}" != "" ]; then
+    if [[ "${result}" != "" ]]; then
       export ${2}=${result}
       return 0
     fi
@@ -160,7 +162,7 @@ user_input::get_yn(){
 # Use: errors::check $? "Here the error description"
 # Echoes the error description and returns original error code ("$?").
 errors::check(){
-  if [ "${1}" -ne "0" ]; then
+  if [[ "${1}" -ne "0" ]]; then
     echo "Error ${1}: ${2}" >&2
     exit_with ${1} ""
   fi
@@ -169,7 +171,7 @@ errors::check(){
 # Check if there's the minimum amount of param required.
 # Use: $(errors::check_enough_params 3 $@) => Throw error if not enough params.
 errors::check_enough_params(){
-  if ! [ $(is_integer $1) ]; then
+  if ! [[ $(is_integer $1) ]]; then
     exit_with 1 "First param must be a number."
   fi
   params_count=$(($#+1))
@@ -258,6 +260,13 @@ strings::to_lower_case(){
 # Use: $(strings::to_upper_case "lower case" ) => "LOWER CASE" 
 strings::to_upper_case(){
   echo "$@" | tr '[:lower:]' '[:upper:]'
+}
+
+
+# Count how many word are in a string. 
+# Use $(strings::count "Here the text")
+strings::count(){
+  echo "$@" | wc -w
 }
 
 # Receives two params. The original text and the subtext to search. Returns "0" or "1".
